@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -31,7 +32,7 @@ public class Post {
 
     @OneToMany
     @JsonIgnore
-    private ArrayList<Comment> comments;
+    private List<Comment> comments;
 
 }
 
