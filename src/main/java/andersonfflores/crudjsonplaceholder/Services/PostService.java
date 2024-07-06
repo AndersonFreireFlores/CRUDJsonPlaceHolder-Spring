@@ -2,6 +2,7 @@ package andersonfflores.crudjsonplaceholder.Services;
 
 import andersonfflores.crudjsonplaceholder.Models.Post;
 import andersonfflores.crudjsonplaceholder.Repositories.PostRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,11 +12,8 @@ import java.util.UUID;
 @Service
 public class PostService {
 
-    private final PostRepository postRepository;
-
-    public PostService(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
+    @Autowired
+    PostRepository postRepository;
 
     public Post save(Post post) {
         return postRepository.save(post);
@@ -27,14 +25,14 @@ public class PostService {
         return postRepository.findById(id);
     }
 
-    public Optional<Post> update(UUID id, Post post) {
+    public Post update(UUID id, Post post) {
         Optional<Post> updatedPost = postRepository.findById(id);
         if (updatedPost.isPresent()) {
             updatedPost.get().setTitle(post.getTitle());
             updatedPost.get().setBody(post.getBody());
-            return Optional.of(postRepository.save(updatedPost.get()));
+            return postRepository.save(updatedPost.get());
         }
-        return Optional.empty();
+    return null;
     }
 
     public void delete(UUID id) {

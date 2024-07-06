@@ -3,6 +3,7 @@ package andersonfflores.crudjsonplaceholder.Services;
 
 import andersonfflores.crudjsonplaceholder.Models.Comment;
 import andersonfflores.crudjsonplaceholder.Repositories.CommentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +13,8 @@ import java.util.UUID;
 @Service
 public class CommentService {
 
-    private final CommentRepository commentRepository;
-
-    public CommentService(CommentRepository commentRepository) {
-        this.commentRepository = commentRepository;
-    }
+    @Autowired
+    CommentRepository commentRepository;
 
     public Comment save(Comment comment) {
         return commentRepository.save(comment);
@@ -30,15 +28,15 @@ public class CommentService {
         return commentRepository.findById(id);
     }
 
-    public Optional<Comment> update(Comment comment, UUID id) {
+    public Comment update(Comment comment, UUID id) {
         Optional<Comment> updatedComment = commentRepository.findById(id);
         if (updatedComment.isPresent()) {
             updatedComment.get().setName(comment.getName());
             updatedComment.get().setBody(comment.getBody());
             updatedComment.get().setEmail(comment.getEmail());
-            return Optional.of(commentRepository.save(updatedComment.get()));
+            return commentRepository.save(updatedComment.get());
         }
-        return Optional.empty();
+        return null;
     }
 
     public void delete(UUID id) {

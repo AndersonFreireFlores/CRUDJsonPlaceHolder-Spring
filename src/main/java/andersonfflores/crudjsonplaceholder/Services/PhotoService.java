@@ -2,6 +2,7 @@ package andersonfflores.crudjsonplaceholder.Services;
 
 import andersonfflores.crudjsonplaceholder.Models.Photo;
 import andersonfflores.crudjsonplaceholder.Repositories.PhotoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,12 +12,8 @@ import java.util.UUID;
 @Service
 public class PhotoService {
 
-    private final PhotoRepository photoRepository;
-
-    public PhotoService(PhotoRepository photoRepository) {
-        this.photoRepository = photoRepository;
-    }
-
+    @Autowired
+    PhotoRepository photoRepository;
     public Photo save(Photo photo) {
         return photoRepository.save(photo);
     }
@@ -28,14 +25,14 @@ public class PhotoService {
         return photoRepository.findById(id);
     }
 
-    public Optional<Photo> update(UUID id, Photo photo) {
+    public Photo update(UUID id, Photo photo) {
         Optional<Photo> updatedPhoto = photoRepository.findById(id);
         if (updatedPhoto.isPresent()) {
             updatedPhoto.get().setUrl(photo.getUrl());
             updatedPhoto.get().setTitle(photo.getTitle());
-            return Optional.of(photoRepository.save(updatedPhoto.get()));
+            return photoRepository.save(updatedPhoto.get());
         }
-        return Optional.empty();
+        return null;
     }
 
     public void deleteById(UUID id) {

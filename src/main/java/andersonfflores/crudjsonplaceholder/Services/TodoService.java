@@ -2,6 +2,7 @@ package andersonfflores.crudjsonplaceholder.Services;
 
 import andersonfflores.crudjsonplaceholder.Models.Todo;
 import andersonfflores.crudjsonplaceholder.Repositories.TodoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,11 +12,8 @@ import java.util.UUID;
 @Service
 public class TodoService {
 
-    private final TodoRepository todoRepository;
-
-    public TodoService(TodoRepository todoRepository) {
-        this.todoRepository = todoRepository;
-    }
+    @Autowired
+    TodoRepository todoRepository;
 
     public Todo save(Todo todo) {
         return todoRepository.save(todo);
@@ -29,14 +27,14 @@ public class TodoService {
         return todoRepository.findById(id);
     }
 
-    public Optional<Todo> update(UUID id, Todo todo) {
+    public Todo update(UUID id, Todo todo) {
         Optional<Todo> updatedTodo = todoRepository.findById(id);
         if (updatedTodo.isPresent()) {
             updatedTodo.get().setTitle(todo.getTitle());
             updatedTodo.get().setCompleted(todo.getCompleted());
-            return Optional.of(todoRepository.save(updatedTodo.get()));
+            return todoRepository.save(updatedTodo.get());
         }
-        return Optional.empty();
+        return null;
     }
 
     public void delete(UUID id) {

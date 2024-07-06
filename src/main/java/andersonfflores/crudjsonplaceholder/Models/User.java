@@ -1,39 +1,39 @@
 package andersonfflores.crudjsonplaceholder.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "tb_user")
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     private String name;
 
     private String email;
 
-    @OneToMany
-    private ArrayList<Post> posts;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Post> posts;
 
-    @OneToMany
-    private ArrayList<Album> albums;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Album> albums;
 
-    @OneToMany
-    private ArrayList<Todo> todos;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Todo> todos;
 
 }

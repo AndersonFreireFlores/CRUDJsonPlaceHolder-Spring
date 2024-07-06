@@ -1,5 +1,6 @@
 package andersonfflores.crudjsonplaceholder.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,11 +17,12 @@ import java.util.UUID;
 public class Todo {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @ManyToOne
-    private User userId;
+    @JoinColumn(name = "tb_user_id")
+    private User user;
 
     private String title;
 

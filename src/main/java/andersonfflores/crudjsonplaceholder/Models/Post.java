@@ -1,5 +1,6 @@
 package andersonfflores.crudjsonplaceholder.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,17 +18,19 @@ import java.util.UUID;
 public class Post {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @ManyToOne
-    private User userId;
+    @JoinColumn(name = "tb_user_id")
+    private User user;
 
     private String title;
 
     private String body;
 
     @OneToMany
+    @JsonIgnore
     private ArrayList<Comment> comments;
 
 }

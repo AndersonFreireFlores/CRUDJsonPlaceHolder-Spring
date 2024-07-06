@@ -2,6 +2,7 @@ package andersonfflores.crudjsonplaceholder.Services;
 
 import andersonfflores.crudjsonplaceholder.Models.Album;
 import andersonfflores.crudjsonplaceholder.Repositories.AlbumRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,11 +12,8 @@ import java.util.UUID;
 @Service
 public class AlbumService {
 
-    private final AlbumRepository albumRepository;
-
-    public AlbumService(AlbumRepository albumRepository) {
-        this.albumRepository = albumRepository;
-    }
+    @Autowired
+    AlbumRepository albumRepository;
 
     public Album save(Album album) {
         return albumRepository.save(album);
@@ -28,14 +26,13 @@ public class AlbumService {
         return albumRepository.findById(id);
     }
 
-    public Optional<Album> update(Album album, UUID id) {
-        Optional<Album> updatedAlbum = albumRepository.findById(id);
-        if(updatedAlbum.isPresent()){
-            updatedAlbum.get().setTitle(album.getTitle());
-            updatedAlbum.get().setPhotos(album.getPhotos());
-            return Optional.of(albumRepository.save(updatedAlbum.get()));
+    public Album update(Album album, UUID id) {
+        Optional<Album> optionalAlbum = albumRepository.findById(id);
+        if (optionalAlbum.isPresent()) {
+            optionalAlbum.get().setTitle(album.getTitle());
+            return albumRepository.save(optionalAlbum.get());
         }
-        return Optional.empty();
+        return null;
     }
 
     public void deleteById(UUID id) {
